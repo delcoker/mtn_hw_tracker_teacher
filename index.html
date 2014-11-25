@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title></title>
+      <script src="js/jquery-1.11.1.min.js"></script>
+      <link rel="stylesheet" href="css/jquery.mobile-1.4.4.css">
+      <script src="js/jquery.mobile-1.4.4.min.js"></script>
+      <link rel="stylesheet" href="css/delcss.css">
+      <link rel="stylesheet" href="css/images/ajax-loader.gif">
+      <script src="js/methods.js"></script>
+      <meta name="viewport" content="width-device-width, initial-scale=1">
+   </head>
+   <body>
+      <!-------------------------------------------------------->
+      <div data-role="page" id="pageone" data-theme="b">
+         <div data-role="header">
+            <h1>Login</h1>
+         </div>
+         <!-------------------------------------------------------->
+         <div role="main" class="ui-content">
+            <p>Please Login</p>
+
+            <div data-role="fieldcontain">
+               <label for="username">Username:</label>
+               <input type="text" name="username" id="username" placeholder="teacher name">
+               <div> &nbsp; </div>
+               <label for="password">Password:</label>
+               <input type="password" name="password" id="password" placeholder="* * * * * * * * * *">
+               <div> &nbsp; </div><label></label>
+
+               <input type="submit" id="login" value="Login" onclick="login()">
+               <div> &nbsp; </div><label></label>
+               <a href="#" data-transition="slidedown">Forgotten Password?</a>
+            </div>
+            <!--</form>-->
+         </div>
+         <!-------------------------------------------------------->
+         <div data-role="footer">
+            <h1>Del Works</h1>
+         </div>
+         <!--<a href="#pageone" data-transition="pop">Slide to Page</a>-->
+      </div>
+      <!----------------------------------------------------------------------------------------------------------------->
+      <div data-role="page" id="home" data-theme="b">
+
+         <div data-role="header">
+            <h1>Home</h1>
+            <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div id="user" class="user"></div></a>
+            <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
+            <div data-role="navbar"> 
+               <ul>
+                  <li><a href="#home" data-icon="home" data-iconpos="left" class="ui-btn-active ui-state-persist" data-transition="slideup">Home</a></li>
+                  <li><a href="#reserve" data-icon="arrow-d" data-iconpos="left" data-transition="pop" >Reserve</a></li>
+                  <li><a href="#anylink" data-icon="search" data-iconpos="left" data-transition="slideup">Map</a></li>
+               </ul>
+            </div>
+            <!--classs="ui-btn-active ui-state-persist"-->
+         </div>
+         <!----------------------------------------------------------->
+         <div role="main" class="ui-content">
+            <h1>Add An Assignment</h1>
+
+            <div data-role="fieldcontain">
+               <fieldset data-role="controlgroup">
+                  <legend>Choose your school:</legend>
+                  <input type="radio" name="radio-choice-2" class="school" id="radio-choice-21" value="1" checked="checked" />
+                  <label for="radio-choice-21">Ghana I.S</label>
+
+                  <input type="radio" name="radio-choice-2" class="school" id="radio-choice-22" value="2"  />
+                  <label for="radio-choice-22">Tema I.S</label>
+
+<!--                  <input type="radio" name="radio-choice-2" id="radio-choice-23" value="choice-3"  />
+                  <label for="radio-choice-23">Christ The King</label>
+
+                  <input type="radio" name="radio-choice-2" id="radio-choice-24" value="choice-4"  />
+                  <label for="radio-choice-24">Presec</label>
+                  
+                  <input type="radio" name="radio-choice-2" id="radio-choice-25" value="choice-5"  />
+                  <label for="radio-choice-25">Ridge Church</label>-->
+               </fieldset>
+            </div>
+            
+            
+            <div data-role="fieldcontain">
+               <fieldset data-role="controlgroup">
+                  <legend>Select Class:</legend>
+                  <input type="radio" name="radio-choice-3" id="radio-choice-26" value="7" checked="checked" />
+                  <label for="radio-choice-26">Form 1</label>
+
+                  <input type="radio" name="radio-choice-3" id="radio-choice-27" value="8"  />
+                  <label for="radio-choice-27">Form 2</label>
+
+                  <input type="radio" name="radio-choice-3" id="radio-choice-28" value="9"  />
+                  <label for="radio-choice-28">Form 3</label>
+
+                  <input type="radio" name="radio-choice-3" id="radio-choice-29" value="10"  />
+                  <label for="radio-choice-29">Form 4</label>
+                  
+                  <input type="radio" name="radio-choice-3" id="radio-choice-30" value="11"  />
+                  <label for="radio-choice-30">Form 5</label>
+                  
+                  <input type="radio" name="radio-choice-3" id="radio-choice-31" value="12"  />
+                  <label for="radio-choice-31">Lower 6</label>
+               </fieldset>
+            </div>
+            
+            <div data-role="fieldcontain">
+               <fieldset data-role="controlgroup">
+                  <legend>Select Subject:</legend>
+                  <input type="radio" name="radio-choice-4" id="radio-choice-32" value="1" checked="checked" />
+                  <label for="radio-choice-32">Math</label>
+
+                  <input type="radio" name="radio-choice-4" id="radio-choice-33" value="2"  />
+                  <label for="radio-choice-33">Phy</label>
+
+                  <input type="radio" name="radio-choice-4" id="radio-choice-34" value="3"  />
+                  <label for="radio-choice-34">Chem</label>
+
+                  <input type="radio" name="radio-choice-4" id="radio-choice-35" value="4"  />
+                  <label for="radio-choice-35">Bio</label>
+                  
+                  <input type="radio" name="radio-choice-4" id="radio-choice-36" value="5"  />
+                  <label for="radio-choice-36">Geo</label>
+               </fieldset>
+            </div>
+            
+            <h3>Set Date Due:</h3>
+            <input id="due_date" type="date">
+            
+            <h4>Assignment:</h4>
+            <textarea id="actual_ass" placeholder="Do your midsem within 3 days even though I know you won't finish"></textarea>
+
+
+            <button onclick="publish_ass()">Submit</button>
+         </div>
+         <!------------------------------------------------------------->
+         <div data-role="footer">
+            <div data-role="controlgroup" data-type="horizontal">
+               <!--<Caption of group:</p>-->
+               <a href="#" data-icon="arrow-l"  data-role="button" data-rel="back">Go Back</a>
+            </div>
+         </div>
+      </div>
+      <!----------------------------------------------------------->
+
+   </body>
+</html>
