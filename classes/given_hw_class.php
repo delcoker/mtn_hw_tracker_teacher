@@ -14,6 +14,19 @@ class given_hw_class extends adb {
       adb::adb();
    }
 
+   function get_all_assignments_by_prof($prof_id) {
+      $query = "SELECT * 
+FROM mw_hw_tracker_given_hw
+LEFT JOIN mw_hw_tracker_subject ON mw_hw_tracker_given_hw.subject_subject_id = mw_hw_tracker_subject.subject_id
+LEFT JOIN mw_hw_tracker_assignment ON mw_hw_tracker_given_hw.assignment_assignment_id = mw_hw_tracker_assignment.assignment_id left join mw_hw_tracker_class on mw_hw_tracker_given_hw.class_class_id = mw_hw_tracker_class.class_id
+WHERE mw_hw_tracker_given_hw.teacher_teacher_id  = $prof_id order by date_due desc";
+//      print $query;
+      $res = $this->query($query);
+//        print("--------------------------------------------------------------------------------");
+//        print($res);
+      return $res;
+   }
+
    function get_all_details() {
       $query = "select * from mw_hw_tracker_given_hw";
       $res = $this->query($query);

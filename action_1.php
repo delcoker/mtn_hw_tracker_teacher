@@ -41,21 +41,21 @@ switch ($cmd) {
 
    case 5:
       //g
-      get_bus_loca();
+      get_all_schools();
       break;
 
    case 6;
-      increase();
+      get_all_classes();
       break;
 
    case 7;
       // get idcho from health promotion
-      decrease();
+      get_all_subjects();
       break;
 
 
    case 8;
-      // search by method, date and topic
+      get_assignments_by_prof();
       break;
 
    default:
@@ -65,7 +65,53 @@ switch ($cmd) {
       echo jsons("message", "not a recognised command");
       echo "}";
 }
-$teacher_id = 0;
+
+function get_assignments_by_prof() {
+   include_once '../hw_tracker/classes/given_hw_class.php';
+
+   $prof_id = get_datan("prof_id");
+
+   $schools_obj = new given_hw_class();
+   if (!$schools_obj->get_all_assignments_by_prof($prof_id)) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("schools", "No assignment found");
+      echo "}";
+      return;
+   }
+   $row = $schools_obj->fetch();
+   if (!$row) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("classes", "No assignment found1d");
+      echo "}";
+      return;
+   } else {
+      echo "{";
+      echo jsonn("result", 1);
+      echo ',"assignments":';
+      echo "[";
+
+      while ($row) {
+         echo "{";
+         echo jsons("class", $row["class_number"]) . ",";
+         echo jsons("actual_assignment", $row["assignment_title"]) . ",";
+         echo jsons("subject", $row["subject_name"]) . ",";
+         echo jsons("due", $row["date_due"]) . ",";
+         echo jsonn("assignments_id", $row["assignment_id"]);
+         echo "}";
+
+         $row = $schools_obj->fetch();
+         if ($row) {
+            echo ",";
+         }
+      }
+      echo "]}";
+   }
+}
+
 function addassignment() {
    include_once './classes/teacher_login_class.php';
    $p = new teacher_login_class();
@@ -83,7 +129,7 @@ function addassignment() {
       echo "}";
       return;
    }
-   
+
    $assignment_id = $p->get_insert_id();
 //   print_r($assignment_id);
 //    check this toooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooddday
@@ -100,7 +146,91 @@ function addassignment() {
    echo "}";
 }
 
+function get_all_subjects() {
+   include_once '../hw_tracker/classes/subject_class.php';
+
+   $schools_obj = new subject_class();
+   if (!$schools_obj->get_all_details()) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("subjects", "No class found");
+      echo "}";
+      return;
+   }
+   $row = $schools_obj->fetch();
+   if (!$row) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("subjects", "No class found1d");
+      echo "}";
+      return;
+   } else {
+      echo "{";
+      echo jsonn("result", 1);
+      echo ',"subjects":';
+      echo "[";
+
+      while ($row) {
+         echo "{";
+         echo jsonn("id", $row["subject_id"]) . ",";
+         echo jsons("subject_name", $row["subject_name"]);
+         echo "}";
+
+         $row = $schools_obj->fetch();
+         if ($row) {
+            echo ",";
+         }
+      }
+      echo "]}";
+   }
+}
+
+function get_all_classes() {
+   include_once '../hw_tracker/classes/class_class.php';
+
+   $schools_obj = new class_class();
+   if (!$schools_obj->get_all_details()) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("schools", "No class found");
+      echo "}";
+      return;
+   }
+   $row = $schools_obj->fetch();
+   if (!$row) {
+
+      echo "{";
+      echo jsonn("result", 0) . ",";
+      echo jsons("classes", "No class found1d");
+      echo "}";
+      return;
+   } else {
+      echo "{";
+      echo jsonn("result", 1);
+      echo ',"classes":';
+      echo "[";
+
+      while ($row) {
+         echo "{";
+         echo jsonn("id", $row["class_id"]) . ",";
+         echo jsons("class_number", $row["class_number"]);
+         echo "}";
+
+         $row = $schools_obj->fetch();
+         if ($row) {
+            echo ",";
+         }
+      }
+      echo "]}";
+   }
+}
+
 function send_message() {
+   $date_due = get_data("date");
+   $teacher_id = get_datan("teacher_id");
    $url = "https://api.smsgh.com/v3/messages/send?"
            . "From=%2B233244813169"
            . "&To=%2B233502128010"
@@ -113,88 +243,49 @@ function send_message() {
    var_dump($response);
 }
 
-function transact1() {
-   session_start();
+function get_all_schools() {
+//   session_start();
 //   $_SESSION['paid']=0;
 
 
-   $last_inserted_id = $_SESSION['last_insert_id'];
+   include_once '../hw_tracker/classes/school_class.php';
 
-   $id = get_datan('user_id');
-   $new_amount = get_datan('new_amount');
-   $amount_before = get_datan('amount_before');
-   $fare = get_datan('fare');
-   $ticket = get_datan('ticket_num');
-   $pick_up_location = get_datan("location");
+   $schools_obj = new school_class();
+   if (!$schools_obj->get_all_details()) {
 
-   if ($id == 0) {
-      return;
-   }
-
-   include_once './transaction_class.php';
-   include_once './user_class.php';
-   include_once './details_class.php';
-
-   $p = new user_class();
-   $q = new transaction_class();
-   $d = new deatils_class();
-
-   $row3 = 0;
-
-//   print($d->get_isert_id($d));
-
-
-   if ($d->get_details($last_inserted_id)) {
-      $row3 = $d->fetch();
-   }
-
-   if ($row3 == 0 || $row3['seatsLeft'] == 0) {
       echo "{";
       echo jsonn("result", 0) . ",";
-      echo jsons("message", "No seats left");
+      echo jsons("schools", "No school found1d");
       echo "}";
       return;
    }
+   $row = $schools_obj->fetch();
+   if (!$row) {
 
-//   $already_reserved = 0;
-   if ($q->search_transactions($id)) {
-      $already_reserved = $q->fetch();
-   }
-//   print_r( $already_reserved);
-   if ($already_reserved['c'] != 0) {
       echo "{";
       echo jsonn("result", 0) . ",";
-      echo '"trans":{';
-      echo jsons("message", "Already Reserved") . ",";
-      echo jsons("ticket_num", $already_reserved['c']);
+      echo jsons("schools", "No school found1d");
       echo "}";
-      echo "}";
-//      $_SESSION['paid'] = 1;
       return;
-   }
-
-   $row = $p->deduction($id, $new_amount);
-   $row2 = $q->transaction($id, $fare, $ticket, $new_amount, $pick_up_location);
-
-   $row4 = $d->update_info($row3['info_id'], $row3['seatsLeft'] - 1, $row3['numOfPssngrsReserved'] + 1, $row3['numOfSeats'], $row3['numOfPssngrsBus'], $row3['longitude'], "\"" . $row3['locationAddress'] . "\"", $row3['latitude']);
-
-   if (!$row || !$row2 || !$row4) {
+   } else {
       echo "{";
-      echo jsonn("result", 0) . ",";
-      echo jsons("message", "Not saved");
-      echo "}";
-      return;
+      echo jsonn("result", 1);
+      echo ',"schools":';
+      echo "[";
+
+      while ($row) {
+         echo "{";
+         echo jsonn("id", $row["school_id"]) . ",";
+         echo jsons("school_name", $row["school_name"]);
+         echo "}";
+
+         $row = $schools_obj->fetch();
+         if ($row) {
+            echo ",";
+         }
+      }
+      echo "]}";
    }
-
-   echo "{";
-   echo jsonn("result", 1) . ",";
-   echo '"user":{';
-   echo jsons("tran", "transaction successful");
-   echo "}";
-   echo "}";
-
-//    $_SESSION['paid'] = 1;
-//    print $_SESSION['paid'];
 }
 
 function transact() {
@@ -279,20 +370,6 @@ function transact() {
 
 //    $_SESSION['paid'] = 1;
 //    print $_SESSION['paid'];
-}
-
-function dropoffs() {
-   include_once './dropoff_class.php';
-   $obj_drop2 = new dropoff_class();
-   $obj_drop2->get_all_dropoffs();
-   $row_drops2 = $obj_drop2->fetch();
-   $i = 0;
-   while ($row_drops2) {
-//      print "fadsf";
-      print jsons("$i", $row_drops2['dropoff_name']) . ",";
-      $row_drops2 = $obj_drop2->fetch();
-      $i++;
-   }
 }
 
 function login() {

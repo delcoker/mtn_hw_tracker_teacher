@@ -34,6 +34,8 @@ var school_id;
 var class_id;
 var subject_id;
 
+var id = 0;
+
 function publish_ass() {
 
    $(function () {
@@ -63,11 +65,11 @@ function publish_ass() {
    var date = getFormattedDate(date2);
 
    var ass = $("#actual_ass").val();
-   
+
 //   alert(id);
 //   alert(ass);
 
-   if(date === null){
+   if (date === null) {
       alert("please select a data");
       return;
    }
@@ -83,13 +85,16 @@ function publish_ass() {
    }
    else {
       alert("Could not add");
+      return;
    }
-   
+
+   // if it added 
+
    // send message
-   
-   var u = "action_1.php?cmd=4";
+
+   var u = "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
    r = syncAjax(u);
-   
+
    if (r.result === 1) {
       alert("Message send");
    }
@@ -99,12 +104,12 @@ function publish_ass() {
 }
 
 function getFormattedDate(date) {
-  var year = date.getFullYear();
-  var month = (1 + date.getMonth()).toString();
-  month = month.length > 1 ? month : '0' + month;
-  var day = date.getDate().toString();
-  day = day.length > 1 ? day : '0' + day;
-  return year + '-' + month + '-' + day;
+   var year = date.getFullYear();
+   var month = (1 + date.getMonth()).toString();
+   month = month.length > 1 ? month : '0' + month;
+   var day = date.getDate().toString();
+   day = day.length > 1 ? day : '0' + day;
+   return year + '-' + month + '-' + day;
 }
 
 function logout() {
@@ -134,68 +139,118 @@ function login() {
 //      seats_left = r.user.seats_left;
 //      pass_on_bus = r.user.pass_on_bus;
 //      pass_on_bus = r.
-
-
-//      prompt("user", user_id + " " + user_name + amount_left);
-//      debugger;
-
-//      var left =
-
-//      left.innerHTML
       $(".user").text(t_firstname);
-//       $("#user").text(t_firstname);
-//      alert(t_firstname);
-//      $('.amount_left').text(amount_left);
-//      $('.pass_on_bus').text(pass_on_bus);
-//      $('.res_seats').text(res_seats);
-//      $('.num_of_seats').text(num_of_seats);
-//      $('.seats_left').text(seats_left);
 
-//      $('ol > li').each(function () {
-//
-////         $(this).prepend("<span>" + ($(this).index() + 1) + "</span>");
-//         $("#list_pay").prepend("<span>" + ($(this).index() + 1) + "</span>");
-//      });
-//
-//      var i = 0;
-////      alert(r.location.l);
-////      debugger;
-//      $('ol').each(function () {
-////      while (i < r.location.length) {
-//         while (i < 10) {
-////         $(this).prepend("<span>" + ($(this).index() + 1) + "</span>");
-//            $("#list_pay").prepend("<li><a href='#' onclick='pick_up("+(i+1)+")'>" + (r.location[i]) + "</a></li>");
-//            i++;
-//         }
-//      });
 
-//      if (r.user.role === 3) {
-////         prompt("url", u);
-////      debugger;
-//
-////         prompt("user", user_id + " " + user_name + amount_left);
-//
+
+      var u = "action_1.php?cmd=5&getschools";
+//      prompt("URL", u);
+      schools = syncAjax(u);
+
+//      <input type="radio" name="radio-choice-2" class="school" id="radio-choice-21" value="1" checked="checked" />
+//                  <label for="radio-choice-21">Ghana I.S</label>
+      var sch = ["Ghana", "Tema", "James town"];
+//      console.log(schools.schools);
+
+      var ins = '<legend>Choose your school:</legend>';
+      $.each(schools.schools, function (key, elem) {
+//         console.log(elem.id);
+         ins += '<label for="radio-choice-2' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">' + elem.school_name + '</label><input type="radio" name="radio-choice-2" class="school" id="radio-choice-2' + elem.id + '" value="' + elem.id + '" checked="checked" data-cacheval="false">';
+
+      });
+      $('#schoolList fieldset').html(ins);
+
+
+// classes
+
+      var u1 = "action_1.php?cmd=6";
+//      prompt("URL", u1);
+      classes = syncAjax(u1);
+
+//      console.log(classes.classes);
+
+      var ins2 = '<legend>Select your class:</legend>';
+      $.each(classes.classes, function (key, elem) {
+//         console.log(elem.id);
+         ins2 += '<label for="radio-choice-3' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">' + elem.class_number + '</label><input type="radio" name="radio-choice-3" id="radio-choice-3' + elem.id + '" value="' + elem.id + '" checked="checked">';
+
+      });
+      $('#classList fieldset').html(ins2);
+
+      // subjects
+      var u2 = "action_1.php?cmd=7";
+//      prompt("URL", u2);
+      subject = syncAjax(u2);
+
+//      console.log(subject.subjects);
+
+      var ins3 = '<legend>Select your class:</legend>';
+      $.each(subject.subjects, function (key, elem) {
+//         console.log(elem.id);
+         ins3 += '<label for="radio-choice-4' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">' + elem.subject_name + '</label><input type="radio" name="radio-choice-4" id="radio-choice-4' + elem.id + '" value="' + elem.id + '" checked="checked">';
+
+      });
+      $('#subjectList fieldset').html(ins3);
+
       window.open("main_hwtracker_mobile.html#home", "_self");
-//
-//      }
-//      else if (r.user.role === 2) { // driver
-////         prompt("url", u);
-////      debugger;
-//         window.open("mobile_and_driver.php#home", "_self");
-//      }
-//      else if (r.user.role === 1) { // admin
-////         prompt("url", u);
-////      debugger;
-//         window.open("mobile_and_admin.php#home", "_self");
-//      }
-//      else {
-//         alert("User does nhot have a role!!");
-//      }
    }
    else {
       alert("username or password wrong");
       return;
    }
+}
+
+
+function get_assignments2() {
+//debugger;
+   var url = "action_1.php?cmd=8&prof_id=" + 1;
+
+//   prompt("url", url);
+   assigns2 = syncAjax(url);
+
+   if (assigns2.result === 1) {
+//      console.log(assigns);
+      ins5 = "";
+//      $.each(assigns.assignments, function (key, elem) {
+//
+////         console.log(elem.actual_assignment);
+//         var actual = elem.actual_assignment;
+//
+//         actual = actual.replace(/["']/g, "!apostrophe!");
+
+         ins5 += '<div data-role="collapsible" class="ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ui-first-child ui-last-child ui-collapsible-collapsed"><h1 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-inherit ui-icon-plus">Subject - Form - Date<span class="ui-collapsible-heading-status"> click to expand contents</span></a></h1><div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true"><p>Content</p></div></div>';
+//      });
+      $('#ass_list2').html(ins5);
+   }
+}
+
+
+
+function get_assignments() {
+
+   var url = "action_1.php?cmd=8&prof_id=" + id;
+
+//   prompt("url", url);
+   assigns = syncAjax(url);
+
+   if (assigns.result === 1) {
+//      console.log(assigns);
+      ins4 = "";
+      $.each(assigns.assignments, function (key, elem) {
+
+//         console.log(elem.actual_assignment);
+         var actual = elem.actual_assignment;
+
+         actual = actual.replace(/["']/g, "!apostrophe!");
+
+         ins4 += '<li class="ui-first-child ui-last-child"><a href="#" onclick="popUp(' + "'" + actual + "'" + ')" class="ui-btn ui-btn-icon-right ui-icon-carat-r ui-last-child">' + elem.subject + " - " + elem.class + " - " + elem.due.substring(0, 10) + '</a></li>';
+      });
+      $('#assignments').html(ins4);
+   }
+}
+
+function popUp(text) {
+   alert(text.replace("!apostrophe!", "'"));
 }
 
 function qrgenerate(rand) {
