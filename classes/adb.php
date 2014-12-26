@@ -8,12 +8,12 @@
 define("DB_HOST", 'localhost');
 define("DB_NAME", 'mw_hw_tracker');
 define("DB_PORT", 3306);
-define("DB_USER", "root");
-define("DB_PWORD", "");
+//define("DB_USER", "root");
+//define("DB_PWORD", "");
 
 
-//define("DB_USER", "csashesi_kc15");
-//define("DB_PWORD", "db!a4df4d");
+define("DB_USER", "csashesi_kc15");
+define("DB_PWORD", "db!a4df4d");
 
 define("LOG_LEVEL_SEC", 0);
 define("LOG_LEVEL_DB_FAIL", 0);
