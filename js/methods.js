@@ -25,7 +25,7 @@ $(document).ready(function () {
 });
 
 
-var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
+var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_teacher/";
 //var phonegap = "";
 
 function syncAjax(u) {
@@ -127,8 +127,8 @@ function login() {
    var pass = document.getElementById("password").value;
 
    var u = phonegap + "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
-//   prompt("URL", u);
-   r = syncAjax(u);
+   prompt("URL", u);
+   var r = syncAjax(u);
 
 //   prompt(r.user);
 
