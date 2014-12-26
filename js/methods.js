@@ -93,13 +93,14 @@ function publish_ass() {
    // send message
 
    var u = "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
+//   prompt('urr', u);
    r = syncAjax(u);
 
-   if (r.result === 1) {
-      alert("Message send");
+   if (r.Rate === 1) {
+      alert("Message sent");
    }
    else {
-      alert("Could not send");
+      alert("Could not send message");
    }
 }
 
@@ -143,7 +144,7 @@ function login() {
 
 
 
-      var u = "action_1.php?cmd=5&getschools";
+      var u = "action_1.php?cmd=5&getschools=1&teacher_id="+id;
 //      prompt("URL", u);
       schools = syncAjax(u);
 
@@ -153,9 +154,10 @@ function login() {
 //      console.log(schools.schools);
 
       var ins = '<legend>Choose your school:</legend>';
+//      debugger
       $.each(schools.schools, function (key, elem) {
 //         console.log(elem.id);
-         ins += '<label for="radio-choice-2' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">' + elem.school_name + '</label><input type="radio" name="radio-choice-2" class="school" id="radio-choice-2' + elem.id + '" value="' + elem.id + '" checked="checked" data-cacheval="false">';
+         ins += '<label for="radio-choice-2' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">' + elem.school_name  + '</label><input type="radio" name="radio-choice-2" class="school" id="radio-choice-2' + elem.id + '" value="' + elem.id + '" checked="checked" data-cacheval="false">';
 
       });
       $('#schoolList fieldset').html(ins);
@@ -163,36 +165,38 @@ function login() {
 
 // classes
 
-      var u1 = "action_1.php?cmd=6";
+      var u1 = "action_1.php?cmd=6&teacher_id="+id;
 //      prompt("URL", u1);
       classes = syncAjax(u1);
 
 //      console.log(classes.classes);
 
-      var ins2 = '<legend>Select your class:</legend>';
+      var ins2 = '<legend> Select your class:</legend>';
       $.each(classes.classes, function (key, elem) {
-//         console.log(elem.id);
+//         console.log(elem);
+//debugger
          ins2 += '<label for="radio-choice-3' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">' + elem.class_number + '</label><input type="radio" name="radio-choice-3" id="radio-choice-3' + elem.id + '" value="' + elem.id + '" checked="checked">';
 
       });
       $('#classList fieldset').html(ins2);
 
       // subjects
-      var u2 = "action_1.php?cmd=7";
+      var u2 = "action_1.php?cmd=7&teacher_id="+id;
 //      prompt("URL", u2);
       subject = syncAjax(u2);
 
 //      console.log(subject.subjects);
 
-      var ins3 = '<legend>Select your class:</legend>';
+      var ins3 = '<legend> Select your subject:</legend>';
       $.each(subject.subjects, function (key, elem) {
 //         console.log(elem.id);
+
          ins3 += '<label for="radio-choice-4' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-radio-on ui-first-child">' + elem.subject_name + '</label><input type="radio" name="radio-choice-4" id="radio-choice-4' + elem.id + '" value="' + elem.id + '" checked="checked">';
 
       });
       $('#subjectList fieldset').html(ins3);
 
-      window.open("main_hwtracker_mobile.html#home", "_self");
+      window.open("index.html#home", "_self");
    }
    else {
       alert("username or password wrong");
@@ -264,193 +268,3 @@ function qrgenerate(rand) {
       text: rand.toString()
    });
 }
-
-function payment() {
-
-//   alert("here");
-//   $("#status").text("NOT PAID");
-   var fare = $("#fare").val();
-   var amount_before = amount_left;
-   if (amount_before - $("#fare").val() >= 0) {
-      var new_amount = amount_before - $("#fare").val();
-
-      var ticket = Math.floor((Math.random() * 1000) + 1);
-//      alert(ticket);
-
-      var url = "login_mobile_action_1.php?cmd=3&user_id=" + user_id + "&new_amount=" + new_amount + "&amount_before=" + amount_before + "&fare=" + $("#fare").val() + "&ticket_num=" + ticket + "&location=" + global_drop_off;
-      prompt("url", url);
-      r = syncAjax(url);
-//      prompt("url", r.result);
-      if (r.result === 1) { // signifies update
-         alert("Your ticket is available in another tab. Go to payment to view");
-//         $("#status").text("PAID");
-//         qrgenerate(ticket);
-         window.open("mobile_and_passenger.php#view_payment", "_self");
-         window.location.reload();
-//         window.open("mobile_and_passenger.php#view_payment", "_self");
-
-//         window.reload("mobile_and_passenger.php#view_payment");
-//         window.location.href="mobile_and_passenger.php#view_payment";
-         global_drop_off = 0;
-      }
-      else if (r.result === 0 && r.trans.message === "Already Reserved") {
-         alert("You have " + r.trans.message);
-//         alert(r.trans.ticket_num);
-//         $("#status").text("PAID");
-//         qrgenerate(r.trans.ticket_num);
-         window.open("mobile_and_passenger.php#view_payment", "_self");
-//         global_drop_off = 0;
-      }
-      else {
-         alert(r.trans.message);
-         alert("unsuccessful");
-         global_drop_off = 0;
-         return;
-      }
-   }
-   else {
-      alert("unsuccessful, not enough funds, you broke");
-      global_drop_off = 0;
-   }
-}
-
-var x = document.getElementById("demo");
-
-function getLocation() {
-//   console.log("called");
-   if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError);
-   } else {
-      x.innerHTML = "Geolocation is not supported by this browser.";
-   }
-}
-
-function getLocationBus() {
-//   console.log("called");
-//   if (navigator.geolocation) {
-   navigator.geolocation.getCurrentPosition(showPositionBus, showError);
-//   } else {
-//      x.innerHTML = "Geolocation is not supported by this browser.";
-//   }
-}
-
-function showPositionBus(position) {
-
-   var url = "login_mobile_action_1.php?cmd=5";
-//      prompt("url", url);
-   r = syncAjax(url);
-
-   if (r.result === 0) {
-      alert(r.message);
-      return;
-   }
-
-   var a = r.x;
-   var b = r.y;
-
-//   alert (a);
-
-   x.innerHTML = "Latitude: " + b +
-           "<br>Longitude: " + a;
-
-   showBus(a, b);
-
-}
-var gloA = 0;
-var gloB = 0;
-function showBus(a, b) {
-//   debugger;
-   gloA = a;
-   gloB = b;
-   window.open("map.php", "_self");
-   /*
-    * Google Maps documentation: http://code.google.com/apis/maps/documentation/javascript/basics.html
-    * Geolocation documentation: http://dev.w3.org/geo/api/spec-source.html
-    */
-
-}
-
-function showPosition(position) {
-
-   x.innerHTML = "Latitude: " + position.coords.latitude +
-           "<br>Longitude: " + position.coords.longitude;
-
-//           update database
-   var url = "login_mobile_action_1.php?cmd=4&long=" + position.coords.longitude + "&lat=" + position.coords.latitude;
-//      prompt("url", url);
-   r = syncAjax(url);
-
-   if (r.result === 0) {
-      alert(r.message);
-   }
-
-
-
-   var latlon = position.coords.latitude + "," + position.coords.longitude;
-
-   var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
-           + latlon + "&zoom=14&size=400x300&sensor=false";
-   document.getElementById("mapholder").innerHTML = "<img src='" + img_url + "'>";
-}
-
-function showError(error) {
-   switch (error.code) {
-      case error.PERMISSION_DENIED:
-         x.innerHTML = "User denied the request for Geolocation.";
-         break;
-      case error.POSITION_UNAVAILABLE:
-         x.innerHTML = "Location information is unavailable.";
-         break;
-      case error.TIMEOUT:
-         x.innerHTML = "The request to get user location timed out.";
-         break;
-      case error.UNKNOWN_ERROR:
-         x.innerHTML = "An unknown error occurred.";
-         break;
-   }
-}
-
-function callEveryHour() {
-//   setTimeout(getLocation, 5000);
-//   setInterval(getLocation(), 5000);
-   getLocation();
-//   console.log("called");
-//   alert("called");
-}
-
-
-
-$(document).on("pagecreate", "#map-page", function () {
-   var defaultLatLng = new google.maps.LatLng(gloA, gloB);  // Default to Hollywood, CA when no geolocation support
-//   debugger;
-   if (navigator.geolocation) {
-
-      function success(pos) {
-         // Location found, show map with these coordinates
-         drawMap(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-//            alert(b);
-      }
-      function fail(error) {
-         drawMap(defaultLatLng);  // Failed to find location, show default map
-      }
-      // Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
-      navigator.geolocation.getCurrentPosition(success, fail, {maximumAge: 500000, enableHighAccuracy: true, timeout: 6000});
-   } else {
-      drawMap(defaultLatLng);  // No geolocation support, show default map
-   }
-   function drawMap(latlng) {
-
-      var myOptions = {
-         zoom: 16,
-         center: latlng,
-         mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-      // Add an overlay to the map of current lat/lng
-      var marker = new google.maps.Marker({
-         position: latlng,
-         map: map,
-         title: "Bus is here!"
-      });
-   }
-});

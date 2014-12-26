@@ -18,6 +18,18 @@ class school_class extends adb {
     * query all religion in the table and store the dataset in $this->result	
     * @return if successful true else false
     */
+   function get_all_sch_teacher_teaches($teacher_id) {
+      $query = "select * from mw_hw_tracker_teach_has_sch left join mw_hw_tracker_teacher on mw_hw_tracker_teach_has_sch.teacher_id = mw_hw_tracker_teacher.teacher_id left join mw_hw_tracker_school on mw_hw_tracker_teach_has_sch.school_id = mw_hw_tracker_school.school_id where mw_hw_tracker_teacher.teacher_id = $teacher_id";
+      
+//       print("--------------------------------------------------------------------------------". $query);
+      
+      $res = $this->query($query);
+//       
+//        print($res);
+      return $res;
+   }
+
+   
    function get_all_details() {
       $query = "select * from mw_hw_tracker_school";
       $res = $this->query($query);

@@ -67,7 +67,7 @@ switch ($cmd) {
 }
 
 function get_assignments_by_prof() {
-   include_once '../hw_tracker/classes/given_hw_class.php';
+   include_once '../hw_tracker_teacher/classes/given_hw_class.php';
 
    $prof_id = get_datan("prof_id");
 
@@ -147,7 +147,7 @@ function addassignment() {
 }
 
 function get_all_subjects() {
-   include_once '../hw_tracker/classes/subject_class.php';
+   include_once '../hw_tracker_teacher/classes/subject_class.php';
 
    $schools_obj = new subject_class();
    if (!$schools_obj->get_all_details()) {
@@ -188,7 +188,7 @@ function get_all_subjects() {
 }
 
 function get_all_classes() {
-   include_once '../hw_tracker/classes/class_class.php';
+   include_once '../hw_tracker_teacher/classes/class_class.php';
 
    $schools_obj = new class_class();
    if (!$schools_obj->get_all_details()) {
@@ -239,8 +239,13 @@ function send_message() {
            . "&ClientSecret=rktegnml"
            . "&RegisteredDelivery=true";
 // Fire the request and wait for the response
-   $response = file_get_contents($url);
-   var_dump($response);
+//   $response = file_get_contents($url);
+//   print($response);
+//   echo "{";
+//   echo jsonn("result", 1) . ",";
+//   echo jsons("message sent", "d1d");
+//   echo "}";
+//   return;
 }
 
 function get_all_schools() {
@@ -248,14 +253,16 @@ function get_all_schools() {
 //   $_SESSION['paid']=0;
 
 
-   include_once '../hw_tracker/classes/school_class.php';
+   include_once '../hw_tracker_teacher/classes/school_class.php';
+
+   $teacher_id = get_datan("teacher_id");
 
    $schools_obj = new school_class();
-   if (!$schools_obj->get_all_details()) {
+   if (!$schools_obj->get_all_sch_teacher_teaches($teacher_id)) {
 
       echo "{";
       echo jsonn("result", 0) . ",";
-      echo jsons("schools", "No school found1d");
+      echo jsons("schools", "No school found");
       echo "}";
       return;
    }
