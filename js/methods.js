@@ -25,6 +25,9 @@ $(document).ready(function () {
 });
 
 
+var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_parent/";
+//var phonegap = "";
+
 function syncAjax(u) {
    var obj = $.ajax({url: u, async: false});
    return $.parseJSON(obj.responseText);
@@ -74,7 +77,7 @@ function publish_ass() {
       return;
    }
 
-   var u = "action_1.php?cmd=3&school_id=" + school_id + "&class_id=" + class_id + "&subject_id=" + subject_id + "&date=" + date + "&teacher_id=" + id + "&ass=" + ass;
+   var u = phonegap + "action_1.php?cmd=3&school_id=" + school_id + "&class_id=" + class_id + "&subject_id=" + subject_id + "&date=" + date + "&teacher_id=" + id + "&ass=" + ass;
 
 //   prompt("URL", u);
 
@@ -123,7 +126,7 @@ function login() {
    var user = document.getElementById("username").value;
    var pass = document.getElementById("password").value;
 
-   var u = "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
+   var u = phonegap + "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
 //   prompt("URL", u);
    r = syncAjax(u);
 
@@ -144,7 +147,7 @@ function login() {
 
 
 
-      var u = "action_1.php?cmd=5&getschools=1&teacher_id="+id;
+      var u = phonegap + "action_1.php?cmd=5&getschools=1&teacher_id=" + id;
 //      prompt("URL", u);
       schools = syncAjax(u);
 
@@ -157,7 +160,7 @@ function login() {
 //      debugger
       $.each(schools.schools, function (key, elem) {
 //         console.log(elem.id);
-         ins += '<label for="radio-choice-2' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">' + elem.school_name  + '</label><input type="radio" name="radio-choice-2" class="school" id="radio-choice-2' + elem.id + '" value="' + elem.id + '" checked="checked" data-cacheval="false">';
+         ins += '<label for="radio-choice-2' + elem.id + '" class="ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-first-child ui-radio-on">' + elem.school_name + '</label><input type="radio" name="radio-choice-2" class="school" id="radio-choice-2' + elem.id + '" value="' + elem.id + '" checked="checked" data-cacheval="false">';
 
       });
       $('#schoolList fieldset').html(ins);
@@ -165,7 +168,7 @@ function login() {
 
 // classes
 
-      var u1 = "action_1.php?cmd=6&teacher_id="+id;
+      var u1 = phonegap + "action_1.php?cmd=6&teacher_id=" + id;
 //      prompt("URL", u1);
       classes = syncAjax(u1);
 
@@ -181,7 +184,7 @@ function login() {
       $('#classList fieldset').html(ins2);
 
       // subjects
-      var u2 = "action_1.php?cmd=7&teacher_id="+id;
+      var u2 = "action_1.php?cmd=7&teacher_id=" + id;
 //      prompt("URL", u2);
       subject = syncAjax(u2);
 
@@ -207,7 +210,7 @@ function login() {
 
 function get_assignments2() {
 //debugger;
-   var url = "action_1.php?cmd=8&prof_id=" + 1;
+   var url = phonegap + "action_1.php?cmd=8&prof_id=" + 1;
 
 //   prompt("url", url);
    assigns2 = syncAjax(url);
@@ -222,7 +225,7 @@ function get_assignments2() {
 //
 //         actual = actual.replace(/["']/g, "!apostrophe!");
 
-         ins5 += '<div data-role="collapsible" class="ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ui-first-child ui-last-child ui-collapsible-collapsed"><h1 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-inherit ui-icon-plus">Subject - Form - Date<span class="ui-collapsible-heading-status"> click to expand contents</span></a></h1><div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true"><p>Content</p></div></div>';
+      ins5 += '<div data-role="collapsible" class="ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ui-first-child ui-last-child ui-collapsible-collapsed"><h1 class="ui-collapsible-heading ui-collapsible-heading-collapsed"><a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-btn-inherit ui-icon-plus">Subject - Form - Date<span class="ui-collapsible-heading-status"> click to expand contents</span></a></h1><div class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed" aria-hidden="true"><p>Content</p></div></div>';
 //      });
       $('#ass_list2').html(ins5);
    }
@@ -232,7 +235,7 @@ function get_assignments2() {
 
 function get_assignments() {
 
-   var url = "action_1.php?cmd=8&prof_id=" + id;
+   var url = phonegap + "action_1.php?cmd=8&prof_id=" + id;
 
 //   prompt("url", url);
    assigns = syncAjax(url);
