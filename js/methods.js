@@ -25,8 +25,8 @@ $(document).ready(function () {
 });
 
 
-var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_teacher/";
-//var phonegap = "";
+//var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_teacher/";
+var phonegap = "";
 
 function syncAjax(u) {
    var obj = $.ajax({url: u, async: false});
@@ -95,7 +95,7 @@ function publish_ass() {
 
    // send message
 
-   var u = "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
+   var u = phonegap + "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
 //   prompt('urr', u);
    r = syncAjax(u);
 
@@ -107,7 +107,8 @@ function publish_ass() {
    }
 }
 
-function getFormattedDate(date) {
+function getFormattedDate(date1) {
+   var date = new Date(date1);
    var year = date.getFullYear();
    var month = (1 + date.getMonth()).toString();
    month = month.length > 1 ? month : '0' + month;
@@ -127,7 +128,7 @@ function login() {
    var pass = document.getElementById("password").value;
 
    var u = phonegap + "action_1.php?cmd=2&user=" + user + "&pass=" + pass;
-   prompt("URL", u);
+//   prompt("URL", u);
    var r = syncAjax(u);
 
 //   prompt(r.user);

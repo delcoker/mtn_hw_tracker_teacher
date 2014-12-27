@@ -38,12 +38,12 @@ if ($mobile_browser > 0) {
 // do something
 //         print "This is a mobile";
 //   header("location: login_mobile.html"); //redirect to home page change this name JUDAH
-   header("location: main_hwtracker_mobile.html");
+   header("location: index.html");
 //   echo "<a href='login_mobile.php'>click here</a>"; //if redirect fails, provide a link
 } else {
 // do something else
 //         print "NOT a mobile";
-   header("location: main_hwtracker_mobile.html"); //redirect to home page
+   header("location: index.html"); //redirect to home page
 //   echo "<a href='login_web.php'>click here</a>"; //if redirect fails, provide a link
 }
 
