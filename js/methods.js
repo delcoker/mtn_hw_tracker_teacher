@@ -185,7 +185,7 @@ function login() {
       $('#classList fieldset').html(ins2);
 
       // subjects
-      var u2 = "action_1.php?cmd=7&teacher_id=" + id;
+      var u2 = phonegap + "action_1.php?cmd=7&teacher_id=" + id;
 //      prompt("URL", u2);
       subject = syncAjax(u2);
 
