@@ -14,7 +14,7 @@ function toast(message) {
       content: message, // string, can be html
       element: "body", // DOM element to insert the message
       animationTime: 150, // time in ms for the animation, -1 to show no animation
-      showTime: 3000, // time in ms for the toast message to stay visible
+      showTime: 2000, // time in ms for the toast message to stay visible
       maxWidth: 250, // maximum width of the message container in px
       backgroundColor: "#1a1a1a", // hexadecimal value of the colour, requires "#" prefix
       fontColor: "#eaeaea", // hexadecimal value of the colour, requires "#" prefix
@@ -22,6 +22,9 @@ function toast(message) {
    });
 }
 
+function load() {
+   toast("loading");
+}
 
 $(document).on('pagebeforecreate', '[data-role="page"]', function () {
    setTimeout(function () {
@@ -50,7 +53,7 @@ var subject_id;
 var id = 0;
 
 function publish_ass() {
-
+   load();
    $(function () {
       $("input[name*=radio-choice-2]:checked").each(function () {
          school_id = $(this).val();
@@ -90,7 +93,7 @@ function publish_ass() {
 
    var u = phonegap + "action_1.php?cmd=3&school_id=" + school_id + "&class_id=" + class_id + "&subject_id=" + subject_id + "&date=" + date + "&teacher_id=" + id + "&ass=" + ass;
 
-   prompt("URL", u);
+//   prompt("URL", u);
 
    r = syncAjax(u);
 
@@ -140,11 +143,12 @@ function getFormattedDate(date1) {
 }
 
 function logout() {
+   load();
    window.open("index.html", "_self");
 }
 
 function login() {
-
+   load();
    //complete the url
    var user = document.getElementById("username").value;
    var pass = document.getElementById("password").value;
@@ -228,11 +232,13 @@ function login() {
       alert("username or password wrong");
       return;
    }
+//   toast("error");
 }
 
 
 function get_assignments2() {
 //debugger;
+   load();
    var url = phonegap + "action_1.php?cmd=8&prof_id=" + 1;
 
 //   prompt("url", url);
@@ -257,7 +263,7 @@ function get_assignments2() {
 
 
 function get_assignments() {
-
+   load();
    var url = phonegap + "action_1.php?cmd=8&prof_id=" + id;
 
 //   prompt("url", url);
