@@ -13,22 +13,46 @@ class teacher_login_class extends adb {
    function teacher_login_class() {
       adb::adb();
    }
-   
-   function acutalassignment($ass){
+
+   function acutalassignment($ass) {
       $query = "insert into mw_hw_tracker_assignment(assignment_title, date_modified, date_created) values(\"$ass\", now(), now())";
 //      print $query;
       return $this->query($query);
-              
    }
-   
-   function addassignment($date_due, $teacher_id, $school_id, $class_id, $subject_id, $assignment_id){
-      $query = "Insert into mw_hw_tracker_given_hw(date_assigned, date_due, teacher_teacher_id, school_school_id, class_class_id, subject_subject_id, assignment_assignment_id, date_created, date_modified) values(now(), '$date_due', $teacher_id, $school_id, $class_id, $subject_id, $assignment_id, now(), now())";   
+
+   function addassignment($date_due, $teacher_id, $school_id, $class_id, $subject_id, $assignment_id) {
+
+
+
+      $query = "Insert into mw_hw_tracker_given_hw(date_assigned, date_due, teacher_teacher_id, school_school_id, class_class_id, subject_subject_id, assignment_assignment_id, date_created, date_modified) values(now(), '$date_due', $teacher_id, $school_id, $class_id, $subject_id, $assignment_id, now(), now())";
 //                      print($query);
-      return $this->query($query);
+      $ins = $this->query($query);
+      $id = $this->get_insert_id();
+
+//      print($id . "-----id");
+      // get last given assignment
+//     $query2 = "Select * from mw_hw_tracker_given_hw where given_hw_id = $id";
+      // get students in this class in this school
+
+      $query3 = "Select * from mw_hw_tracker_student where school_id = $school_id and class_id = $class_id";
+
+//      print($query3 . "-----q3");
+      $this->query($query3);
+      $row_studs = $this->fetch();
+      $res = false;
+      while ($row_studs) {
+
+
+         $query1 = "Insert into mw_hw_tracker_student_has_assignment(student_id, given_hw_id, date_created) values($row_studs[student_id], $id, now())";
+         $row_studs = $this->fetch();
+//         print($query1 . "---res");
+         $res = $this->query($query1);
+      }
+      return $ins;
    }
-   
+
    function loginAsTeach($username, $password) {
-      $query = "Select count(*) as c from mw_hw_tracker_teacher where username= '$username' and password = '$password' ";   
+      $query = "Select count(*) as c from mw_hw_tracker_teacher where username= '$username' and password = '$password' ";
 //                      print($query);
       $this->query($query);
       $result = $this->fetch();
@@ -42,18 +66,16 @@ class teacher_login_class extends adb {
    function loadProfile($username) {
       //load username and other informaiton into the session      
       $query = "select * from mw_hw_tracker_teacher where username = '$username';";
-      
+
       $this->query($query);
 
       $result = $this->fetch();
 //      session_start();
-      
 //      $_SESSION['username'] = $username;
 //      print $result;
       return $result;
-
    }
-   
+
    /**
     * query all religion in the table and store the dataset in $this->result	
     * @return if successful true else false
@@ -66,8 +88,6 @@ class teacher_login_class extends adb {
       return $res;
    }
 
-   
-   
    /**
     * get the children (students) of this parent
     * @return if successful true else false

@@ -1,10 +1,7 @@
 // created because database structure changed the last minute
 var global_drop_off = 0;
 
-// $_SESSION['username'] = $username;
-//      $_SESSION['role_id'] = $result['role_role_id'];
-//      $_SESSION['amount_left'] = $result['amount_left'];
-//      $_SESSION['id'] = $result['user_id'];
+
 
 var user_id = 0;
 var user_name = 0;
@@ -12,18 +9,31 @@ var user_role_id = 0;
 var amount_left = 0;
 //      alert(amount_left);
 
+function toast(message) {
+   $(".element").cftoaster({
+      content: message, // string, can be html
+      element: "body", // DOM element to insert the message
+      animationTime: 150, // time in ms for the animation, -1 to show no animation
+      showTime: 3000, // time in ms for the toast message to stay visible
+      maxWidth: 250, // maximum width of the message container in px
+      backgroundColor: "#1a1a1a", // hexadecimal value of the colour, requires "#" prefix
+      fontColor: "#eaeaea", // hexadecimal value of the colour, requires "#" prefix
+      bottomMargin: 75 // space to leave between the bottom of the toast message and the bottom of the browser window in px
+   });
+}
 
-var seats_left = 0;
-var res_seats = 0;
-var pass_on_bus = 0;
-var num_of_seats = 0;
 
-$(document).ready(function () {
-//   var amount_left = $('#amount_left').text();
-//   alert(amount_left);
-//   login();
+$(document).on('pagebeforecreate', '[data-role="page"]', function () {
+   setTimeout(function () {
+      $.mobile.loading('show');
+   }, 1);
 });
 
+$(document).on('pageshow', '[data-role="page"]', function () {
+   setTimeout(function () {
+      $.mobile.loading('hide');
+   }, 300);
+});
 
 var phonegap = "https://50.63.128.135/~csashesi/class2015/kingston-coker/mobile_web/hw_tracker_teacher/";
 //var phonegap = "";
@@ -73,13 +83,14 @@ function publish_ass() {
 //   alert(ass);
 
    if (date === null) {
-      alert("please select a data");
+//      alert("please select a date");
+      toast("please select a date");
       return;
    }
 
    var u = phonegap + "action_1.php?cmd=3&school_id=" + school_id + "&class_id=" + class_id + "&subject_id=" + subject_id + "&date=" + date + "&teacher_id=" + id + "&ass=" + ass;
 
-//   prompt("URL", u);
+   prompt("URL", u);
 
    r = syncAjax(u);
 
@@ -92,18 +103,29 @@ function publish_ass() {
    }
 
    // if it added 
-
+   // add it to students given hw tabke
+//   var you = phonegap + "action_1.php?cmd=9&school_id=" + school_id + "&class_id=" + class_id + "&subject_id=" + subject_id + "&date=" + date + "&teacher_id=" + id + "&ass=" + ass;
+//
+//   var w = syncAjax(you);
+//   
+//    if (w.Rate === 1) {
+////      alert("Message sent");
+//   toast("Transfered assignemtns to parents");
+//   }
+//   else {
+//      toast("Could not transfer to parents");
+//   }
    // send message
 
    var u = phonegap + "action_1.php?cmd=4" + "&date=" + date + "&teacher_id=" + id;
 //   prompt('urr', u);
-   r = syncAjax(u);
+   var r = syncAjax(u);
 
    if (r.Rate === 1) {
-      alert("Message sent");
+//      alert("Message sent");
    }
    else {
-      alert("Could not send message");
+//      alert("Could not send message");
    }
 }
 

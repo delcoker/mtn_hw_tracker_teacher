@@ -14,11 +14,12 @@
       <!-------------------------------------------------------->
       <div data-role="page" id="pageone" data-theme="b">
          <div data-role="header">
-            <h1>Login</h1>
+            <h1> Teacher Login</h1>
          </div>
          <!-------------------------------------------------------->
          <div role="main" class="ui-content">
             <p>Please Login</p>
+            <p class="element"></p>
 
             <div data-role="fieldcontain">
                <label for="username">Username:</label>
@@ -30,7 +31,7 @@
 
                <input type="submit" id="login" value="Login" onclick="login()">
                <div> &nbsp; </div><label></label>
-<!--               <a href="#" data-transition="slidedown">Forgotten Password?</a>-->
+               <!--               <a href="#" data-transition="slidedown">Forgotten Password?</a>-->
             </div>
             <!--</form>-->
          </div>
@@ -58,7 +59,7 @@
          <!----------------------------------------------------------->
          <div role="main" class="ui-content">
             <h1>Add An Assignment</h1>
-
+            <p class="element"></p>
             <div data-role="fieldcontain" id="schoolList">
                <fieldset data-role="controlgroup">
                   <legend >Choose your school:</legend>
@@ -117,6 +118,7 @@
       <div data-role="page" id="homeworks" data-theme="b">
          <div data-role="header">
             <h1>Views</h1>
+            <p class="element"></p>
             <a href="#pageone" data-role="button" data-icon="" data-iconpos="right" class="ui-btn-left">Hi there <div class="user"></div></a>
             <a href="#pageone" data-role="button" data-icon="arrow-u" data-iconpos="right" class="ui-btn-right"  onclick="logout()">Logout</a>
             <div data-role="navbar"> 
@@ -138,30 +140,12 @@
                   <ol data-role="listview" data-inset="true" data-filter="true" id="assignments">
                      <li>
                         <a href='#' onclick='get_assignments()'>;</a>
-                        
+
                      </li>
                   </ol>
                </fieldset>
             </div>
-            
-<!--            <div data-role="collapsible-set" id="ass_list2">
-               <div data-role="collapsible" >
-                  <h1>Subject - Form - Date</h1>
-                  <p>
-                     Content
-                  </p>
-               </div>-->
-               
-            <!--</div>-->
 
-
-
-
-
-
-
-
-            <!--<button onclick="publish_ass()">Submit</button>-->
          </div>
          <!------------------------------------------------------------->
          <div data-role="footer">

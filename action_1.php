@@ -57,6 +57,10 @@ switch ($cmd) {
    case 8;
       get_assignments_by_prof();
       break;
+   
+   case 9;
+      add_ass_to_students();
+      break;
 
    default:
       echo "{";
@@ -65,6 +69,17 @@ switch ($cmd) {
       echo jsons("message", "not a recognised command");
       echo "}";
 }
+
+//function add_ass_to_students(){
+//   include_once './classes/student_has_assignement_class.php';
+//   $p = new teacher_login_class();
+//   $date_due = get_data("date");
+//   $teacher_id = get_datan("teacher_id");
+//   $school_id = get_datan("school_id");
+//   $class_id = get_datan("class_id");
+//   $subject_id = get_datan("subject_id");
+//   $ass = get_data("ass");
+//}
 
 function get_assignments_by_prof() {
    include_once '../hw_tracker_teacher/classes/given_hw_class.php';
@@ -144,6 +159,8 @@ function addassignment() {
    echo jsonn("result", 1) . ",";
    echo jsons("message", "Assignment added");
    echo "}";
+   
+   
 }
 
 function get_all_subjects() {
